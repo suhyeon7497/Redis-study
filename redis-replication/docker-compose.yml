@@ -4,7 +4,9 @@ services:
   redis-master:
     image: redis:7
     container_name: redis-master
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "/etc/redis/master.conf"]
+    volumes:
+      - "./master.conf:/etc/redis/master.conf"
     ports:
       - "6379:6379"
     networks:
@@ -13,7 +15,9 @@ services:
   redis-slave1:
     image: redis:7
     container_name: redis-slave1
-    command: ["redis-server", "--replicaof", "redis-master", "6379"]
+    command: ["redis-server", "/etc/redis/slave.conf"]
+    volumes:
+      - "./slave.conf:/etc/redis/slave.conf"
     ports:
       - "6380:6379"
     networks:
@@ -22,7 +26,9 @@ services:
   redis-slave2:
     image: redis:7
     container_name: redis-slave2
-    command: ["redis-server", "--replicaof", "redis-master", "6379"]
+    command: ["redis-server", "/etc/redis/slave.conf"]
+    volumes:
+      - "./slave.conf:/etc/redis/slave.conf"
     ports:
       - "6381:6379"
     networks:
